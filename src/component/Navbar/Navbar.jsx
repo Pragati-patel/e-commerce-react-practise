@@ -37,15 +37,15 @@ const storedTheme = localStorage.getItem("theme");
           <img src={logo} alt="" />
         </li>
         <li className="px-4">
-          <Link to='/home'>Home</Link>
+          <Link to='/'>Home</Link>
           {/* Home */}
         </li>
         <li className="px-4">
-          <Link to="/home">Category</Link>
+          <Link to="/category">Category</Link>
           {/* Category */}
         </li>
         <li className="px-4">
-          <Link to="/home">About Us</Link>
+          <Link to="/aboutus">About Us</Link>
         </li>
         <li className="px-4">
           <Link to="/images" >Images</Link>

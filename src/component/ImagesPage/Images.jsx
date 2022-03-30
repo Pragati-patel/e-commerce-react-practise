@@ -1,11 +1,11 @@
-import React, { useState, useEffect ,useContext, createContext} from "react";
+import React, { useState, useEffect, useContext, createContext } from "react";
 import { AiOutlineRight, AiOutlineLeft } from "react-icons/ai";
 import { FaRegImages } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { usePrimaryContextProvider } from "../../context/primaryContext";
 
-export default function Images({ }) {
-  const {setuser} = usePrimaryContextProvider()
+export default function Images({}) {
+  const { setuser } = usePrimaryContextProvider();
   const navigate = useNavigate();
 
   const imageArr = Array(50)
@@ -17,24 +17,24 @@ export default function Images({ }) {
   const [currentPage, setcurrentPage] = useState(0);
   const [selected, setSelected] = useState([]);
   const [input, setInput] = useState("");
-const [backgroundColor, setBackgroundColor] = useState({
-  background:
-    "linear-gradient(90deg, #FFECD2 0%, #FCB69F 100%)",
-})
+  // const [backgroundColor, setBackgroundColor] = useState({
+  //   background: "linear-gradient(90deg, #FFECD2 0%, #FCB69F 100%)",
+  // });
   const paginationLength = imageArr.length / 10;
   const paginationArr = Array(paginationLength)
     .fill()
     .map((_, i) => i + 1);
 
   const handlePage = (page, index) => {
-    // console.log("index", index);
     setcurrentPage(index);
     setPage(page);
     setImages(imageArr.slice((page - 1) * 10, page * 10));
   };
 
   const handleImage = (v, i) => {
-    setSelected([...selected, v]);
+    if (selected.includes(v))
+      setSelected(selected.filter((item) => item !== v));
+    else setSelected([...selected, v]);
   };
 
   const handleChange = (event) => {
@@ -75,7 +75,14 @@ const [backgroundColor, setBackgroundColor] = useState({
             return (
               <div
                 className="flex flex-wrap flex-col w-40 h-40 hover:drop-shadow-xl  rounded-3xl justify-center items-center  text-4xl m-4   hover:border-x-fuchsia-500"
-                style={backgroundColor}
+                style={
+                  selected.includes(v)
+                    ? { background: " linear-gradient(#e66465, #9198e5)" }
+                    : {
+                        background:
+                          "linear-gradient(90deg, #FFECD2 0%, #FCB69F 100%)",
+                      }
+                }
                 onClick={() => handleImage(v, i)}
               >
                 {v}
@@ -86,6 +93,9 @@ const [backgroundColor, setBackgroundColor] = useState({
                       placeholder="user"
                       className="flex w-60 text-xl px-2"
                       onChange={handleChange}
+                      onClick={(event) => {
+                        event.stopPropagation();
+                      }}
                       value={input}
                     />
                     <button
