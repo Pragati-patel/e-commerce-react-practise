@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect ,useContext, createContext} from "react";
 import { AiOutlineRight, AiOutlineLeft } from "react-icons/ai";
 import { FaRegImages } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import { usePrimaryContextProvider } from "../../context/primaryContext";
 
-export default function Images({ changeUser }) {
+export default function Images({ }) {
+  const {setuser} = usePrimaryContextProvider()
   const navigate = useNavigate();
 
   const imageArr = Array(50)
@@ -15,7 +17,10 @@ export default function Images({ changeUser }) {
   const [currentPage, setcurrentPage] = useState(0);
   const [selected, setSelected] = useState([]);
   const [input, setInput] = useState("");
-
+const [backgroundColor, setBackgroundColor] = useState({
+  background:
+    "linear-gradient(90deg, #FFECD2 0%, #FCB69F 100%)",
+})
   const paginationLength = imageArr.length / 10;
   const paginationArr = Array(paginationLength)
     .fill()
@@ -29,19 +34,17 @@ export default function Images({ changeUser }) {
   };
 
   const handleImage = (v, i) => {
-    console.log(i);
     setSelected([...selected, v]);
   };
 
   const handleChange = (event) => {
-    console.log(event.target.value);
     setInput(event.target.value);
   };
 
   const handleSave = (event) => {
     event.stopPropagation();
-    console.log("save");
-    changeUser(input);
+    // console.log("save");
+    setuser(input);
     setInput("");
   };
   useEffect(() => {
@@ -72,10 +75,7 @@ export default function Images({ changeUser }) {
             return (
               <div
                 className="flex flex-wrap flex-col w-40 h-40 hover:drop-shadow-xl  rounded-3xl justify-center items-center  text-4xl m-4   hover:border-x-fuchsia-500"
-                style={{
-                  background:
-                    "linear-gradient(90deg, #FFECD2 0%, #FCB69F 100%)",
-                }}
+                style={backgroundColor}
                 onClick={() => handleImage(v, i)}
               >
                 {v}

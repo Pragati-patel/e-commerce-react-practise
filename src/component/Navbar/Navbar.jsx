@@ -1,11 +1,13 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useContext} from "react";
 import logo from "../../image/ecomm-logo.svg";
 import { BiSearch, BiCart ,BiToggleLeft, BiToggleRight, BiUserCircle} from "react-icons/bi";
 import { Link } from "react-router-dom";
 import './Navbar.css'
+import primaryContext, { usePrimaryContextProvider } from "../../context/primaryContext";
 
-export default function Navbar({state}) {
+export default function Navbar() {
 const [toggle, setToggle] = useState(false)
+const {user} = usePrimaryContextProvider()
 
 const setDark=()=>{
   setToggle(false)
@@ -14,8 +16,8 @@ const setDark=()=>{
 }
 
 useEffect(() => {
-  console.log(state)
-}, [state])
+  console.log(user)
+}, [user])
 
 
 const setLight = () => {
@@ -65,7 +67,7 @@ const storedTheme = localStorage.getItem("theme");
        
         </li>
         <li className="px-4 flex" >
-          <BiUserCircle size={"1.5rem"}/>{state}
+          <BiUserCircle size={"1.5rem"}/>{user}
         </li>
         <li className="px-4"> Logout</li>
       </ul>
