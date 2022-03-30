@@ -10,7 +10,7 @@ export default function Images({}) {
 
   const imageArr = Array(50)
     .fill()
-    .map((_, i) => i + 1);
+    .map((_, i) => ({ EmpId: i, Name: "Employee", Address: "Indore" }));
 
   const [page, setPage] = useState(1);
   const [images, setImages] = useState(imageArr.slice(page - 1, 10));
@@ -32,6 +32,7 @@ export default function Images({}) {
   };
 
   const handleImage = (v, i) => {
+    console.log(v);
     if (selected.includes(v))
       setSelected(selected.filter((item) => item !== v));
     else setSelected([...selected, v]);
@@ -62,22 +63,30 @@ export default function Images({}) {
         className="inline-flex ml-4 mt-8 cursor-pointer"
         onClick={() =>
           navigate("/selectedimages", {
-            state: { selected: selected, fun: "ok" },
+            state: { selected: selected },
           })
         }
       >
         Selected Images <FaRegImages size={"1.5rem"} className="mx-2" />
         {selected.length}
       </div>
+      <div className="inline-flex ml-4 mt-8 cursor-pointer"
+      onClick={()=>navigate("/selecteddatatable",{state:{selected:selected}})}
+      >
+      Show selected images's data <FaRegImages size={"1.5rem"} className="mx-2" />
+      </div>
       <div className="flex flex-wrap  ">
         <div className="flex flex-wrap">
           {images?.map((v, i) => {
             return (
               <div
-                className="flex flex-wrap flex-col w-40 h-40 hover:drop-shadow-xl  rounded-3xl justify-center items-center  text-4xl m-4   hover:border-x-fuchsia-500"
+                className="flex flex-wrap flex-col w-40 h-40 hover:drop-shadow-xl  rounded-3xl justify-center items-center  m-4   hover:border-x-fuchsia-500"
                 style={
                   selected.includes(v)
-                    ? { background: " linear-gradient(#e66465, #9198e5)" }
+                    ? {
+                        background: " linear-gradient(#e66465, #9198e5)",
+                        color: "white",
+                      }
                     : {
                         background:
                           "linear-gradient(90deg, #FFECD2 0%, #FCB69F 100%)",
@@ -85,7 +94,6 @@ export default function Images({}) {
                 }
                 onClick={() => handleImage(v, i)}
               >
-                {v}
                 {i == 0 ? (
                   <div className="flex justify-center mt-2">
                     <input
@@ -105,7 +113,21 @@ export default function Images({}) {
                       save
                     </button>
                   </div>
-                ) : null}
+                ) : (
+                  <div className="flex flex-col">
+                    <p>
+                      <span className="font-semibold"> Employee Id </span>:{" "}
+                      {v.EmpId}
+                    </p>
+                    <p>
+                      <span className="font-semibold">Name </span>: {v.Name}
+                    </p>
+                    <p>
+                      <span className="font-semibold">Address </span>:{" "}
+                      {v.Address}
+                    </p>
+                  </div>
+                )}
               </div>
             );
           })}

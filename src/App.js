@@ -8,6 +8,7 @@ import ShippingForm from "./component/Shipping/ShippingForm";
 import Images from "./component/ImagesPage/Images";
 import SelectedImages from "./component/ImagesPage/SelectedImages";
 import { PrimaryContextProvider } from "./context/primaryContext";
+import SelectedDataTable from "./component/ImagesPage/SelectedDataTable";
 
 function App() {
 
@@ -26,6 +27,7 @@ function App() {
               element={<Images />}
             />
             <Route path="/selectedimages" element={<SelectedImages />} />
+            <Route path="/selecteddatatable" element={<SelectedDataTable/>} />
           </Routes>
         </BrowserRouter>
       </div>

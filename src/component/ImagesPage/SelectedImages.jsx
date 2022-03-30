@@ -1,13 +1,14 @@
 import React from "react";
 import { useLocation } from "react-router-dom";
 
-export default function SelectedImages(props) {
+export default function SelectedImages() {
   const location = useLocation();
   console.log("state",location?.state)
   const selectedArr = location?.state?.selected
-  console.log("selectedArr",selectedArr?.selected);
+  // console.log("selectedArr",selectedArr?.selected);
   return (
     <div className="flex flex-wrap">
+    {selectedArr.length===0?<div className="flex text-4xl justify-center mt-8 w-100">No Images Selected</div>:(<>
       {selectedArr?.map((value,index) => {
         return (
           <div
@@ -16,10 +17,12 @@ export default function SelectedImages(props) {
               background: "linear-gradient(90deg, #FFECD2 0%, #FCB69F 100%)",
             }}
           >
-            {value}
+            {value.EmpId}
           </div>
         );
       })}
+    </>)}
+     
     </div>
   );
 }
