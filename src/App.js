@@ -8,7 +8,7 @@ import ShippingForm from "./component/Shipping/ShippingForm";
 import Images from "./component/ImagesPage/Images";
 import SelectedImages from "./component/ImagesPage/SelectedImages";
 import { PrimaryContextProvider } from "./context/primaryContext";
-import SelectedDataTable from "./component/ImagesPage/SelectedDataTable";
+import SelectedDataTable from "./component/Table/SelectedDataTable";
 
 function App() {
 

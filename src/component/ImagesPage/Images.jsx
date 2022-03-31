@@ -32,7 +32,7 @@ export default function Images({}) {
   };
 
   const handleImage = (v, i) => {
-    console.log(v);
+    // console.log(v);
     if (selected.includes(v))
       setSelected(selected.filter((item) => item !== v));
     else setSelected([...selected, v]);
@@ -44,18 +44,13 @@ export default function Images({}) {
 
   const handleSave = (event) => {
     event.stopPropagation();
-    // console.log("save");
     setuser(input);
     setInput("");
   };
   useEffect(() => {
     console.log("input", input);
   }, [input]);
-  useEffect(() => {
-    console.log("images", imageArr);
-    console.log("value", page);
-    console.log("selected", selected);
-  }, [page, selected]);
+
 
   return (
     <>
