@@ -21,3 +21,32 @@ table {
     background-color: #04AA6D;
     color: white;
   }
+  .modal_wrap{
+    display: flex;
+    flex-direction: column;
+  }
+  .modal_heading{
+    display: flex;
+    justify-content: space-between;
+  }
+  .modal_form{
+    display: flex;
+    flex-direction: column;
+  }
+  .modal_form label{
+    margin: 1rem 0 0;
+  }
+  .modal_form input{
+    border-bottom: 2px solid rgb(204 204 204);
+    margin: 0.5rem 0 0 ;
+    outline: none;
+  }
+  .modal_submit{
+    display: flex;
+    background-color: brown;
+    color: #ffffff;
+    padding: 0.5rem;
+    justify-content: center;
+    margin-top: 1.5rem;
+    width: 40%;
+  }

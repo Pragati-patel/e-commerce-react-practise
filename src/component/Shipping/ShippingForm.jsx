@@ -1,18 +1,30 @@
 import React from "react";
 import { Formik } from "formik";
-import * as yup from 'yup';
+import * as yup from "yup";
 
 export default function ShippingForm() {
-  const schema=yup.object().shape({
-    name: yup.string()
-                .min(2, "Mininum 2 characters")
-                .max(30, "Maximum 30 characters")
-                .required("Your name is required"),
-            email: yup.string()
-                .email("Invalid email format")
-                .required("Your email is required")
-               
-  })
+  const schema = yup.object().shape({
+    name: yup
+      .string()
+      .min(2, "Mininum 2 characters")
+      .max(30, "Maximum 30 characters")
+      .required("Your name is required"),
+    email: yup
+      .string()
+      .email("Invalid email format")
+      .required("Your email is required"),
+  });
+  const handleSubmit = (data) => {
+    console.log("data", data);
+    fetch("https://reqres.in/api/users", {
+      headers: { Accept: "application/json" },method:"POST", body:JSON.stringify(data)
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        return data;
+      })
+      .catch((error) => console.log("error", error));
+  };
   return (
     <div className="flex flex-col p-8 w-60 mx-auto">
       <div className="flex">
@@ -20,15 +32,9 @@ export default function ShippingForm() {
         <h1>Shipping</h1>
       </div>
       <Formik
-        initialValues={{ email: "" , name:""}}
-       
+        initialValues={{ email: "", name: "" }}
         validationSchema={schema}
-        onSubmit={(values, { setSubmitting }) => {
-          setTimeout(() => {
-            alert(JSON.stringify(values, null, 2));
-            setSubmitting(false);
-          }, 400);
-        }}
+        onSubmit={(data) => handleSubmit(data)}
       >
         {({
           values,
@@ -38,9 +44,9 @@ export default function ShippingForm() {
           handleBlur,
           handleSubmit,
           isSubmitting,
-          /* and other goodies */
         }) => (
           <form
+            method="post"
             onSubmit={handleSubmit}
             className="flex flex-col border-2 border-black p-4 w-100"
           >
@@ -49,14 +55,14 @@ export default function ShippingForm() {
             </label>
             <input
               type="text"
-              name='name'
+              name="name"
               onChange={handleChange}
               onBlur={handleBlur}
               value={values.name}
               placeholder="Pragati Patel"
               className="outline-none border-b-2 border-black pb-1 "
             />
-             {errors.name && touched.name && errors.name}
+            {errors.name && touched.name && errors.name}
 
             <label htmlFor="" className="py-4">
               Email
@@ -135,8 +141,6 @@ export default function ShippingForm() {
           </form>
         )}
       </Formik>
-
-    
     </div>
   );
 }

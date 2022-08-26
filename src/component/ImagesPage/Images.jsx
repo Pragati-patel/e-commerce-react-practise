@@ -5,7 +5,12 @@ import { useNavigate } from "react-router-dom";
 import { usePrimaryContextProvider } from "../../context/primaryContext";
 
 export default function Images({}) {
-  const { setuser } = usePrimaryContextProvider();
+  const {
+    setuser,
+    setSelected: choose,
+    selected: choosen,
+  } = usePrimaryContextProvider();
+
   const navigate = useNavigate();
 
   const imageArr = Array(50)
@@ -17,13 +22,23 @@ export default function Images({}) {
   const [currentPage, setcurrentPage] = useState(0);
   const [selected, setSelected] = useState([]);
   const [input, setInput] = useState("");
-  // const [backgroundColor, setBackgroundColor] = useState({
-  //   background: "linear-gradient(90deg, #FFECD2 0%, #FCB69F 100%)",
-  // });
+
   const paginationLength = imageArr.length / 10;
   const paginationArr = Array(paginationLength)
     .fill()
     .map((_, i) => i + 1);
+
+    useEffect(() => {
+      if(choosen) {
+        let newItems = [...imageArr]
+        choosen.forEach(element => {
+          newItems = newItems.filter(item => +item.EmpId !== +element.EmpId)
+          newItems.push(element)
+        })
+        newItems.sort((a,b) => a.EmpId>b.EmpId ? 1 : -1)
+        setImages(newItems)
+      }
+    },[])
 
   const handlePage = (page, index) => {
     setcurrentPage(index);
@@ -32,10 +47,14 @@ export default function Images({}) {
   };
 
   const handleImage = (v, i) => {
-    // console.log(v);
-    if (selected.includes(v))
+    if (selected.includes(v)) {
       setSelected(selected.filter((item) => item !== v));
-    else setSelected([...selected, v]);
+      choose(selected.filter((item) => item !== v))
+    } else
+    {
+      setSelected([...selected, v]);
+      choose([...selected, v]);
+    } 
   };
 
   const handleChange = (event) => {
@@ -47,10 +66,6 @@ export default function Images({}) {
     setuser(input);
     setInput("");
   };
-  useEffect(() => {
-    console.log("input", input);
-  }, [input]);
-
 
   return (
     <>
@@ -65,10 +80,14 @@ export default function Images({}) {
         Selected Images <FaRegImages size={"1.5rem"} className="mx-2" />
         {selected.length}
       </div>
-      <div className="inline-flex ml-4 mt-8 cursor-pointer"
-      onClick={()=>navigate("/selecteddatatable",{state:{selected:selected}})}
+      <div
+        className="inline-flex ml-4 mt-8 cursor-pointer"
+        onClick={() =>
+          navigate("/selecteddatatable", { state: { selected: selected } })
+        }
       >
-      Show selected images's data <FaRegImages size={"1.5rem"} className="mx-2" />
+        Show selected images's data{" "}
+        <FaRegImages size={"1.5rem"} className="mx-2" />
       </div>
       <div className="flex flex-wrap  ">
         <div className="flex flex-wrap">
